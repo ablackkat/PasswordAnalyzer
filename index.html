@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>Password Validator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="scan-line"></div>
+
+  <main class="container">
+    <header class="header">
+      <div class="header-tag">[ SECURE SYSTEM v2.1 ]</div>
+      <h1 class="title">Password<br /><span class="title-accent">Validator</span></h1>
+      <p class="subtitle">Real-time cryptographic strength analysis</p>
+    </header>
+
+    <section class="card">
+      <div class="card-corner tl"></div>
+      <div class="card-corner tr"></div>
+      <div class="card-corner bl"></div>
+      <div class="card-corner br"></div>
+
+      <!-- DB status banner -->
+      <div class="db-banner db-loading" id="db-banner">
+        <span id="db-status">&#x27F3; Loading password database&hellip;</span>
+        <input type="file" id="file-picker" accept=".txt" style="display:none" />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="password-input">
+          <span class="label-icon">&#9658;</span> ENTER PASSPHRASE
+        </label>
+        <div class="input-wrapper" id="input-wrapper">
+          <input
+            type="password"
+            id="password-input"
+            class="password-input"
+            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+            autocomplete="new-password"
+            spellcheck="false"
+          />
+          <button class="toggle-btn" id="toggle-btn" aria-label="Toggle password visibility">
+            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg id="eye-off-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="strength-bar-container">
+        <div class="strength-bar" id="strength-bar">
+          <div class="strength-fill" id="strength-fill"></div>
+        </div>
+        <span class="strength-label" id="strength-label">AWAITING INPUT</span>
+      </div>
+
+      <div class="feedback-panel" id="feedback-panel">
+        <div class="feedback-header">
+          <span class="blink">&#9608;</span> ANALYSIS OUTPUT
+        </div>
+        <div class="feedback-content" id="feedback-content">
+          <span class="idle-msg">System ready. Enter a passphrase to begin analysis...</span>
+        </div>
+      </div>
+
+      <div class="requirements-grid">
+        <div class="req-item" id="req-upper">
+          <span class="req-dot"></span>
+          <span class="req-text">Uppercase [A&ndash;Z]</span>
+        </div>
+        <div class="req-item" id="req-lower">
+          <span class="req-dot"></span>
+          <span class="req-text">Lowercase [a&ndash;z]</span>
+        </div>
+        <div class="req-item" id="req-digit">
+          <span class="req-dot"></span>
+          <span class="req-text">Digit [0&ndash;9]</span>
+        </div>
+        <div class="req-item" id="req-special">
+          <span class="req-dot"></span>
+          <span class="req-text">Special [!@#$&hellip;]</span>
+        </div>
+        <div class="req-item" id="req-common">
+          <span class="req-dot"></span>
+          <span class="req-text">Not common password</span>
+        </div>
+        <div class="req-item" id="req-substr">
+          <span class="req-dot"></span>
+          <span class="req-text">No common substring</span>
+        </div>
+        <div class="req-item" id="req-length">
+          <span class="req-dot"></span>
+          <span class="req-text">Length &ge; 8 chars</span>
+        </div>
+      </div>
+    </section>
+
+    <a
+      id="dl-btn"
+      class="dl-btn"
+      href="https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt"
+      download="common-passwords.txt"
+      style="display:none"
+      aria-label="Download common passwords database"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download common-passwords.txt
+      <span class="dl-sub">then load it with the button above</span>
+    </a>
+
+    <footer class="footer">
+      <span>NO DATA TRANSMITTED &middot; CLIENT-SIDE ONLY &middot; ZERO STORAGE</span>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
